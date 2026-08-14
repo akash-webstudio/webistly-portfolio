@@ -1,0 +1,2230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Webistly — Modern Websites for Ambitious Businesses</title>
+  <meta name="description"
+    content="Webistly builds modern, responsive and conversion-focused websites for local businesses and ambitious brands." />
+  <meta property="og:title" content="Webistly — Modern Websites for Ambitious Businesses" />
+  <meta property="og:description"
+    content="Webistly builds modern, responsive and conversion-focused websites for local businesses and ambitious brands." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#f6f4f0" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:opsz,wght@14..32,300..700&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ===== RESET + ROOT VARIABLES ===== */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --color-bg: #f6f4f0;
+      --color-surface: #ffffff;
+      --color-text: #141414;
+      --color-muted: #5a5a5a;
+      --color-primary: #1e1e2f;
+      --color-secondary: #2a2a3e;
+      --color-accent: #5c3dff;
+      --color-accent-soft: #e9e4ff;
+      --color-border: #dcd8d0;
+      --color-card-bg: #fcfbf9;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --nav-width: 80px;
+      --transition-smooth: 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      color: var(--color-text);
+      max-width: 100%;
+      overflow-x: clip;
+      line-height: 1.5;
+    }
+
+    /* ===== PRELOADER ===== */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: var(--color-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    #preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .preloader-text {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(3rem, 10vw, 8rem);
+      letter-spacing: -0.04em;
+      color: var(--color-text);
+      animation: preloaderPulse 1.6s ease-in-out infinite;
+    }
+
+    .preloader-text .accent {
+      color: var(--color-accent);
+    }
+
+    .preloader-line {
+      width: 200px;
+      height: 3px;
+      background: var(--color-border);
+      border-radius: 10px;
+      margin-top: 2rem;
+      overflow: hidden;
+    }
+
+    .preloader-line span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: var(--color-accent);
+      border-radius: 10px;
+      animation: preloaderLine 1.8s ease-in-out infinite;
+    }
+
+    @keyframes preloaderPulse {
+
+      0%,
+      100% {
+        opacity: 0.6;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.02);
+      }
+    }
+
+    @keyframes preloaderLine {
+      0% {
+        width: 0%;
+        left: 0;
+      }
+
+      50% {
+        width: 100%;
+        left: 0;
+      }
+
+      100% {
+        width: 0%;
+        left: 100%;
+      }
+    }
+
+    /* ===== CUSTOM CURSOR ===== */
+    .cursor-dot {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 8px;
+      height: 8px;
+      background: var(--color-accent);
+      border-radius: 50%;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+      mix-blend-mode: difference;
+    }
+
+    .cursor-ring {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 34px;
+      height: 34px;
+      border: 1.5px solid var(--color-text);
+      border-radius: 50%;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.2s, width 0.3s, height 0.3s, border-color 0.3s;
+      opacity: 0.5;
+    }
+
+    @media (pointer: coarse) {
+
+      .cursor-dot,
+      .cursor-ring {
+        display: none !important;
+      }
+    }
+
+    /* ===== NAVIGATION ===== */
+    .nav-vertical {
+      position: fixed;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      align-items: flex-end;
+    }
+
+    .nav-vertical a {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      text-decoration: none;
+      transition: color 0.3s, transform 0.2s;
+      writing-mode: vertical-rl;
+      padding: 4px 0;
+      position: relative;
+      opacity: 0.5;
+    }
+
+    .nav-vertical a::after {
+      content: '';
+      position: absolute;
+      right: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 4px;
+      background: var(--color-accent);
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .nav-vertical a:hover,
+    .nav-vertical a.active {
+      color: var(--color-text);
+      opacity: 1;
+    }
+
+    .nav-vertical a.active::after {
+      opacity: 1;
+    }
+
+    .nav-vertical a:hover {
+      transform: scale(1.1) translateX(-4px);
+    }
+
+    /* ===== MOBILE NAV ===== */
+    .mobile-nav-trigger {
+      display: none;
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 1100;
+      background: var(--color-surface);
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      cursor: pointer;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.2s;
+    }
+
+    .mobile-nav-trigger span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--color-text);
+      transition: all 0.3s;
+      border-radius: 4px;
+    }
+
+    .mobile-nav-trigger.open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .mobile-nav-trigger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .mobile-nav-trigger.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    .mobile-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(246, 244, 240, 0.96);
+      backdrop-filter: blur(12px);
+      z-index: 1050;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 28px;
+      padding: 32px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    .mobile-overlay.open {
+      display: flex;
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .mobile-overlay a {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 8vw, 3.4rem);
+      font-weight: 600;
+      color: var(--color-text);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      transition: color 0.2s;
+    }
+
+    .mobile-overlay a:hover {
+      color: var(--color-accent);
+    }
+
+    @media (max-width: 768px) {
+      .nav-vertical {
+        display: none;
+      }
+
+      .mobile-nav-trigger {
+        display: flex;
+      }
+
+      .mobile-overlay {
+        display: flex;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .mobile-overlay.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+    }
+
+    /* ===== SECTIONS ===== */
+    section {
+      padding: 8vh 5vw;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      padding-top: 12vh;
+      padding-bottom: 6vh;
+      min-height: 100vh;
+      justify-content: center;
+      background: var(--color-bg);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4rem;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-left {
+      max-width: 70%;
+    }
+
+    .hero-right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .hero-right .webistly-logo {
+      width: 320px;
+      max-width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      border-radius: 100px;
+      transform: translateX(-120px) translateY(-80px);
+      filter: grayscale(0) contrast(1.1);
+      opacity: 0.92;
+      transition: opacity 0.3s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(2.8rem, 8vw, 5.6rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.8rem;
+    }
+
+    .hero-title .outline {
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--color-text);
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 1.6vw, 1.4rem);
+      color: var(--color-muted);
+      max-width: 40ch;
+      font-weight: 400;
+      margin-top: 0.8rem;
+      line-height: 1.4;
+    }
+
+    .hero-meta {
+      margin-top: 3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.8rem 3rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-muted);
+    }
+
+    .hero-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .hero-meta .accent-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: var(--color-accent);
+      border-radius: 50%;
+    }
+
+    .hero-shape {
+      position: absolute;
+      right: 8%;
+      top: 20%;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: var(--color-accent-soft);
+      opacity: 0.3;
+      filter: blur(60px);
+      z-index: 0;
+      animation: floatShape 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatShape {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      100% {
+        transform: translate(-20px, 40px) scale(1.1);
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .hero-right .webistly-logo {
+        width: 260px;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .hero-left {
+        max-width: 100%;
+      }
+
+      .hero-right {
+        justify-content: flex-start;
+        margin-top: 0.5rem;
+      }
+
+      .hero-right .webistly-logo {
+        width: 220px;
+        border-radius: 16px;
+      }
+
+      .hero-title {
+        font-size: clamp(2.4rem, 10vw, 3.8rem);
+        line-height: 1;
+      }
+
+      .hero-shape {
+        width: 120px;
+        height: 120px;
+        right: 4%;
+        top: 30%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-right .webistly-logo {
+        width: 180px;
+        border-radius: 14px;
+      }
+
+      .hero-title {
+        font-size: clamp(2rem, 12vw, 3rem);
+      }
+    }
+
+    /* ===== MANIFESTO ===== */
+    .manifesto {
+      background: var(--color-surface);
+      padding: 10vh 5vw;
+      min-height: 80vh;
+    }
+
+    .manifesto-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 2rem;
+    }
+
+    .manifesto-text {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(2.8rem, 8vw, 6rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      max-width: 16ch;
+    }
+
+    .manifesto-text .highlight {
+      color: var(--color-accent);
+      background: linear-gradient(135deg, #5c3dff, #8b6bff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .manifesto-desc {
+      margin-top: 2rem;
+      max-width: 50ch;
+      font-size: clamp(1rem, 1.4vw, 1.3rem);
+      color: var(--color-muted);
+    }
+
+    /* ===== SERVICES ===== */
+    .services {
+      background: var(--color-bg);
+      padding: 8vh 5vw;
+      min-height: 100vh;
+    }
+
+    .services-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .service-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.8rem 0;
+      border-bottom: 1px solid var(--color-border);
+      transition: background 0.2s, padding 0.2s;
+      cursor: default;
+      flex-wrap: wrap;
+      gap: 1rem 2rem;
+    }
+
+    .service-item:hover {
+      background: rgba(92, 61, 255, 0.02);
+      padding-left: 1rem;
+    }
+
+    .service-number {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(1.8rem, 3vw, 3.4rem);
+      color: var(--color-accent);
+      opacity: 0.5;
+      min-width: 70px;
+    }
+
+    .service-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(1.8rem, 4vw, 3.8rem);
+      letter-spacing: -0.02em;
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .service-desc {
+      max-width: 32ch;
+      color: var(--color-muted);
+      font-size: 0.95rem;
+      flex: 0 1 280px;
+    }
+
+    .service-icon {
+      font-size: clamp(2.6rem, 5vw, 4.8rem);
+      opacity: 0.2;
+      transition: opacity 0.3s, transform 0.3s;
+      min-width: 60px;
+      text-align: right;
+    }
+
+    .service-item:hover .service-icon {
+      opacity: 0.8;
+      transform: rotate(4deg) scale(1.05);
+    }
+
+    @media (max-width: 680px) {
+      .service-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+        padding: 1.2rem 0;
+      }
+
+      .service-number {
+        min-width: 40px;
+        font-size: 1.4rem;
+      }
+
+      .service-title {
+        font-size: clamp(1.6rem, 6vw, 2.4rem);
+        min-width: unset;
+      }
+
+      .service-desc {
+        flex: 1 1 auto;
+        max-width: 100%;
+      }
+
+      .service-icon {
+        font-size: 2.4rem;
+        align-self: flex-end;
+      }
+    }
+
+    /* ===== WORK / DEMOS ===== */
+    .work {
+      background: var(--color-surface);
+      padding: 8vh 5vw;
+      min-height: 120vh;
+    }
+
+    .work-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 6rem;
+      margin-top: 4rem;
+    }
+
+    .demo-block {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 3rem;
+      align-items: center;
+      background: var(--color-card-bg);
+      border-radius: 28px;
+      padding: 2.4rem 2.8rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.02);
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 1px solid rgba(0, 0, 0, 0.02);
+    }
+
+    .demo-block:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.04);
+    }
+
+    .demo-block.reverse {
+      grid-template-columns: 1.2fr 1fr;
+    }
+
+    .demo-info .demo-number {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 5vw, 5.6rem);
+      font-weight: 700;
+      color: var(--color-accent);
+      opacity: 0.15;
+      line-height: 1;
+    }
+
+    .demo-info h3 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.6rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin: 0.4rem 0 0.2rem;
+    }
+
+    .demo-info .category {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-muted);
+      background: var(--color-bg);
+      display: inline-block;
+      padding: 0.2rem 1rem;
+      border-radius: 30px;
+      margin-bottom: 1rem;
+    }
+
+    .demo-info p {
+      color: var(--color-muted);
+      max-width: 32ch;
+      margin-bottom: 1.6rem;
+    }
+
+    .btn-demo {
+      display: inline-block;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.8rem 2rem;
+      background: var(--color-text);
+      color: var(--color-bg);
+      border-radius: 60px;
+      text-decoration: none;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn-demo:hover {
+      background: var(--color-accent);
+      transform: scale(1.02);
+    }
+
+    .demo-mockup {
+      background: var(--color-bg);
+      border-radius: 18px;
+      padding: 1.4rem 1.4rem 0.8rem 1.4rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--color-border);
+      transition: transform 0.3s;
+    }
+
+    .demo-mockup .browser-bar {
+      display: flex;
+      gap: 6px;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .demo-mockup .browser-bar span {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ddd;
+    }
+
+    .demo-mockup .browser-bar span:nth-child(1) {
+      background: #ff5f57;
+    }
+
+    .demo-mockup .browser-bar span:nth-child(2) {
+      background: #ffbd2e;
+    }
+
+    .demo-mockup .browser-bar span:nth-child(3) {
+      background: #28c840;
+    }
+
+    .demo-mockup .mockup-content {
+      padding: 2rem 1rem 1rem;
+      text-align: center;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(1.8rem, 4vw, 4rem);
+      letter-spacing: -0.02em;
+      color: var(--color-text);
+      min-height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 820px) {
+
+      .demo-block,
+      .demo-block.reverse {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 1.8rem;
+      }
+
+      .demo-mockup .mockup-content {
+        min-height: 100px;
+        font-size: clamp(1.4rem, 6vw, 2.6rem);
+      }
+
+      .work-grid {
+        gap: 3rem;
+      }
+    }
+
+    /* ===== PROCESS ===== */
+    .process {
+      background: var(--color-bg);
+      padding: 8vh 5vw;
+      min-height: 80vh;
+    }
+
+    .process-flow {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem 4rem;
+      margin-top: 3rem;
+      max-width: 900px;
+    }
+
+    .process-step {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(1.6rem, 2.8vw, 2.6rem);
+    }
+
+    .process-step .num {
+      font-size: clamp(2.4rem, 4vw, 4rem);
+      color: var(--color-accent);
+      opacity: 0.3;
+      font-weight: 700;
+    }
+
+    .process-step .arrow {
+      font-size: 2rem;
+      color: var(--color-muted);
+      opacity: 0.3;
+      margin-left: auto;
+    }
+
+    .process-step:nth-child(2) .arrow {
+      transform: rotate(0deg);
+    }
+
+    .process-step:nth-child(3) .arrow {
+      transform: rotate(0deg);
+    }
+
+    .process-step:nth-child(4) .arrow {
+      visibility: hidden;
+    }
+
+    @media (max-width: 680px) {
+      .process-flow {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .process-step .arrow {
+        transform: rotate(90deg) !important;
+        margin-left: 0;
+      }
+
+      .process-step:nth-child(4) .arrow {
+        visibility: visible;
+        opacity: 0;
+      }
+    }
+
+    /* ===== INDUSTRIES MARQUEE ===== */
+    .industries {
+      background: var(--color-surface);
+      padding: 6vh 0;
+      overflow: hidden;
+      border-bottom: 1px solid var(--color-border);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .marquee-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+      padding: 0.8rem 0;
+    }
+
+    .marquee {
+      display: flex;
+      gap: 4rem;
+      white-space: nowrap;
+      animation: marqueeScroll 20s linear infinite;
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(1.2rem, 3vw, 2.4rem);
+      letter-spacing: 0.02em;
+      color: var(--color-muted);
+    }
+
+    .marquee.reverse {
+      animation-direction: reverse;
+    }
+
+    .marquee span {
+      padding: 0 1rem;
+    }
+
+    @keyframes marqueeScroll {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* ===== CONTACT ===== */
+    .contact {
+      background: var(--color-surface);
+      min-height: 90vh;
+      padding: 8vh 5vw;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 3rem;
+    }
+
+    .contact-info h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .contact-info .detail {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .contact-info .detail a {
+      color: var(--color-text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.1rem;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+      display: inline-block;
+    }
+
+    .contact-info .detail a:hover {
+      border-color: var(--color-accent);
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .contact-form input,
+    .contact-form select,
+    .contact-form textarea {
+      padding: 0.9rem 1.2rem;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      transition: border 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+
+    .contact-form input:focus,
+    .contact-form select:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(92, 61, 255, 0.08);
+    }
+
+    .contact-form button {
+      padding: 1rem 2rem;
+      background: var(--color-text);
+      color: var(--color-bg);
+      border: none;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .contact-form button:hover {
+      background: var(--color-accent);
+      transform: scale(1.01);
+    }
+
+    .form-success {
+      display: none;
+      padding: 1rem;
+      background: #e3f5e3;
+      border-radius: 12px;
+      color: #0a4f0a;
+      font-weight: 500;
+    }
+
+    .form-error {
+      display: none;
+      padding: 1rem;
+      background: #fde7e7;
+      border-radius: 12px;
+      color: #b91c1c;
+      font-weight: 500;
+    }
+
+    @media (max-width: 820px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--color-primary);
+      color: rgba(255, 255, 255, 0.7);
+      padding: 6vh 5vw 4vh;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem 4rem;
+    }
+
+    .footer-brand {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      color: #fff;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: #fff;
+    }
+
+    .footer-copy {
+      margin-top: 3rem;
+      font-size: 0.8rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 2rem;
+      text-align: center;
+      width: 100%;
+    }
+
+    /* ===== REDUCED MOTION ===== */
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .marquee {
+        animation: none !important;
+        flex-wrap: wrap;
+        white-space: normal;
+        justify-content: center;
+      }
+    }
+
+    /* ===== RESPONSIVE FIXES ===== */
+    @media (max-width: 480px) {
+      section {
+        padding: 6vh 4vw;
+        min-height: auto;
+      }
+
+      .manifesto-text {
+        font-size: clamp(2.2rem, 8vw, 3.2rem);
+      }
+
+      .footer-brand {
+        font-size: clamp(2.2rem, 10vw, 3.6rem);
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        gap: 1.6rem;
+      }
+    }
+
+    section[id] {
+      scroll-margin-top: 20px;
+    }
+
+    /* ===== EXTRA UTILITY CLASSES FOR VOLUME ===== */
+    .text-gradient {
+      background: linear-gradient(135deg, #5c3dff, #8b6bff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .gap-4 {
+      gap: 4rem;
+    }
+
+    .mt-8 {
+      margin-top: 8rem;
+    }
+
+    .border-accent {
+      border-color: var(--color-accent);
+    }
+
+    .op-20 {
+      opacity: 0.2;
+    }
+
+    .fw-700 {
+      font-weight: 700;
+    }
+
+    .ls-tight {
+      letter-spacing: -0.04em;
+    }
+
+    /* Social icon styles — added for clarity, consistent with existing design */
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--color-text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.1rem;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .social-link:hover {
+      border-color: var(--color-accent);
+    }
+
+    .social-link svg {
+      width: 1.3rem;
+      height: 1.3rem;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* ===== MOBILE RESPONSIVENESS OVERRIDES ===== */
+    /* Reset hero logo transform on mobile so it stays inside viewport */
+    @media (max-width: 820px) {
+      .hero-right .webistly-logo {
+        transform: none !important;
+        width: min(220px, 65vw);
+        margin: 0 auto;
+      }
+
+      .hero-grid {
+        gap: 1.5rem;
+      }
+
+      .hero-left {
+        max-width: 100%;
+      }
+
+      .hero-title {
+        font-size: clamp(2.4rem, 10vw, 3.8rem);
+        line-height: 1.05;
+      }
+
+      .hero-sub {
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+        max-width: 100%;
+      }
+
+      .hero-meta {
+        gap: 1rem 1.8rem;
+        font-size: 0.75rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-right .webistly-logo {
+        width: min(160px, 55vw);
+      }
+
+      .hero-title {
+        font-size: clamp(1.8rem, 12vw, 2.8rem);
+      }
+
+      .hero-meta {
+        gap: 0.8rem 1.2rem;
+        font-size: 0.7rem;
+      }
+
+      .hero-shape {
+        width: 80px;
+        height: 80px;
+        right: 2%;
+        top: 20%;
+      }
+    }
+
+    @media (max-width: 375px) {
+      .hero-right .webistly-logo {
+        width: min(130px, 50vw);
+      }
+
+      .hero-title {
+        font-size: clamp(1.6rem, 11vw, 2.2rem);
+      }
+
+      .hero-sub {
+        font-size: clamp(0.9rem, 2.2vw, 1rem);
+      }
+    }
+
+    /* Demo section mobile improvements */
+    @media (max-width: 820px) {
+      .demo-block,
+      .demo-block.reverse {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+        padding: 1.2rem 1.2rem;
+        border-radius: 20px;
+      }
+
+      .demo-info .demo-number {
+        font-size: clamp(2rem, 8vw, 3.2rem);
+      }
+
+      .demo-info h3 {
+        font-size: clamp(1.6rem, 6vw, 2.6rem);
+        word-break: break-word;
+      }
+
+      .demo-info p {
+        max-width: 100%;
+        font-size: 0.95rem;
+      }
+
+      .demo-mockup {
+        padding: 0.8rem 0.8rem 0.4rem 0.8rem;
+        border-radius: 14px;
+        max-width: 100%;
+        overflow: hidden;
+      }
+
+      .demo-mockup .mockup-content {
+        min-height: 70px;
+        font-size: clamp(1.2rem, 5vw, 2rem);
+        padding: 1rem 0.5rem 0.5rem;
+        word-break: break-word;
+      }
+
+      .btn-demo {
+        font-size: 0.85rem;
+        padding: 0.6rem 1.4rem;
+        width: auto;
+        min-width: 140px;
+        text-align: center;
+      }
+
+      .work-grid {
+        gap: 2rem;
+      }
+
+      .work {
+        padding: 6vh 4vw;
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .demo-block,
+      .demo-block.reverse {
+        padding: 1rem;
+        border-radius: 16px;
+      }
+
+      .demo-info .category {
+        font-size: 0.65rem;
+        padding: 0.15rem 0.8rem;
+      }
+
+      .demo-info h3 {
+        font-size: clamp(1.4rem, 5vw, 1.8rem);
+      }
+
+      .demo-mockup .mockup-content {
+        font-size: clamp(1rem, 4vw, 1.4rem);
+        min-height: 50px;
+      }
+
+      .btn-demo {
+        font-size: 0.8rem;
+        padding: 0.5rem 1.2rem;
+        min-width: 120px;
+      }
+    }
+
+    /* Services mobile improvements */
+    @media (max-width: 680px) {
+      .services {
+        padding: 6vh 4vw;
+        min-height: auto;
+      }
+
+      .service-item {
+        padding: 0.8rem 0;
+        gap: 0.2rem;
+        flex-wrap: wrap;
+      }
+
+      .service-number {
+        font-size: 1.2rem;
+        min-width: 30px;
+      }
+
+      .service-title {
+        font-size: clamp(1.2rem, 5vw, 1.8rem);
+        min-width: unset;
+        flex: 1 1 60%;
+      }
+
+      .service-desc {
+        font-size: 0.85rem;
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+
+      .service-icon {
+        font-size: 1.8rem;
+        min-width: 40px;
+        align-self: center;
+      }
+
+      .services-grid {
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .service-title {
+        font-size: clamp(1rem, 4.5vw, 1.4rem);
+      }
+
+      .service-desc {
+        font-size: 0.8rem;
+      }
+
+      .service-icon {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Process mobile improvements */
+    @media (max-width: 680px) {
+      .process {
+        padding: 6vh 4vw;
+        min-height: auto;
+      }
+
+      .process-flow {
+        gap: 0.8rem;
+        margin-top: 1.5rem;
+      }
+
+      .process-step {
+        font-size: clamp(1.2rem, 4vw, 1.6rem);
+        gap: 0.8rem;
+        padding: 0.4rem 0;
+      }
+
+      .process-step .num {
+        font-size: clamp(1.6rem, 5vw, 2.4rem);
+        min-width: 36px;
+      }
+
+      .process-step .arrow {
+        font-size: 1.4rem;
+        transform: rotate(90deg) !important;
+        margin-left: 0;
+      }
+
+      .process-step:nth-child(4) .arrow {
+        visibility: hidden;
+        display: none;
+      }
+    }
+
+    /* Contact mobile improvements */
+    @media (max-width: 820px) {
+      .contact {
+        padding: 6vh 4vw;
+        min-height: auto;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      .contact-info h2 {
+        font-size: clamp(2rem, 8vw, 2.8rem);
+      }
+
+      .contact-info .detail {
+        gap: 0.8rem;
+      }
+
+      .contact-info .detail a {
+        font-size: 1rem;
+      }
+
+      .contact-form input,
+      .contact-form select,
+      .contact-form textarea {
+        padding: 0.7rem 1rem;
+        font-size: 0.95rem;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
+      .contact-form button {
+        padding: 0.8rem 1.6rem;
+        font-size: 0.95rem;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .contact-form {
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .contact-info h2 {
+        font-size: clamp(1.6rem, 7vw, 2.2rem);
+      }
+
+      .contact-info .detail a {
+        font-size: 0.9rem;
+        word-break: break-word;
+      }
+
+      .social-link {
+        font-size: 0.9rem;
+      }
+
+      .social-link svg {
+        width: 1.1rem;
+        height: 1.1rem;
+      }
+    }
+
+    /* Footer mobile improvements */
+    @media (max-width: 680px) {
+      .footer {
+        padding: 4vh 4vw 3vh;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        gap: 1.2rem;
+        align-items: center;
+        text-align: center;
+      }
+
+      .footer-brand {
+        font-size: clamp(2rem, 10vw, 2.8rem);
+      }
+
+      .footer-links {
+        gap: 1.2rem 1.8rem;
+        justify-content: center;
+      }
+
+      .footer-links a {
+        font-size: 0.8rem;
+      }
+
+      .footer-copy {
+        font-size: 0.7rem;
+        margin-top: 1.5rem;
+        padding-top: 1.2rem;
+      }
+    }
+
+    /* Manifesto mobile improvements */
+    @media (max-width: 680px) {
+      .manifesto {
+        padding: 6vh 4vw;
+        min-height: auto;
+      }
+
+      .manifesto-text {
+        font-size: clamp(2rem, 8vw, 3rem);
+        max-width: 100%;
+      }
+
+      .manifesto-desc {
+        font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+        max-width: 100%;
+        margin-top: 1.2rem;
+      }
+
+      .manifesto-label {
+        font-size: 0.65rem;
+        margin-bottom: 1.2rem;
+      }
+    }
+
+    /* Marquee / Industries mobile */
+    @media (max-width: 680px) {
+      .industries {
+        padding: 3vh 0;
+      }
+
+      .marquee {
+        font-size: clamp(0.8rem, 2.5vw, 1.2rem);
+        gap: 2rem;
+      }
+
+      .marquee span {
+        padding: 0 0.6rem;
+      }
+
+      .marquee-wrap {
+        gap: 0.8rem;
+        padding: 0.4rem 0;
+      }
+    }
+
+    /* Section heading mobile */
+    @media (max-width: 680px) {
+      section h2 {
+        font-size: clamp(1.6rem, 6vw, 2.4rem) !important;
+      }
+
+      section .manifesto-label {
+        font-size: 0.65rem;
+        margin-bottom: 1rem;
+      }
+    }
+
+    /* Mobile nav trigger - ensure it's not overflowing */
+    .mobile-nav-trigger {
+      top: 16px;
+      right: 16px;
+    }
+
+    @media (max-width: 480px) {
+      .mobile-nav-trigger {
+        top: 12px;
+        right: 12px;
+        width: 42px;
+        height: 42px;
+      }
+
+      .mobile-nav-trigger span {
+        width: 18px;
+        height: 2px;
+      }
+
+      .mobile-overlay {
+        padding: 20px;
+        gap: 20px;
+      }
+
+      .mobile-overlay a {
+        font-size: clamp(1.6rem, 7vw, 2.4rem);
+      }
+    }
+
+    /* Touch targets - ensure buttons are tappable */
+    @media (pointer: coarse) {
+      .btn-demo,
+      .contact-form button,
+      .mobile-nav-trigger,
+      .social-link,
+      .footer-links a {
+        min-height: 44px;
+        min-width: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .btn-demo {
+        min-height: 44px;
+        padding: 0.6rem 1.6rem;
+      }
+
+      .contact-form button {
+        min-height: 50px;
+      }
+
+      .social-link {
+        min-height: 36px;
+        padding: 4px 0;
+      }
+
+      .footer-links a {
+        min-height: 36px;
+        padding: 4px 8px;
+      }
+    }
+
+    /* Prevent horizontal scroll on any element */
+    img,
+    svg,
+    video,
+    iframe,
+    .demo-mockup,
+    .hero-right .webistly-logo,
+    .contact-form input,
+    .contact-form select,
+    .contact-form textarea {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Ensure container doesn't overflow */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    /* Additional safety for all elements */
+    * {
+      max-width: 100%;
+    }
+
+    /* Fix for very small screens */
+    @media (max-width: 320px) {
+      .hero-right .webistly-logo {
+        width: min(110px, 45vw);
+      }
+
+      .hero-title {
+        font-size: clamp(1.4rem, 10vw, 1.8rem);
+      }
+
+      .hero-sub {
+        font-size: clamp(0.8rem, 2vw, 0.9rem);
+      }
+
+      .hero-meta {
+        font-size: 0.6rem;
+        gap: 0.5rem 1rem;
+      }
+
+      .service-title {
+        font-size: clamp(0.9rem, 4vw, 1.2rem);
+      }
+
+      .demo-info h3 {
+        font-size: clamp(1.2rem, 4.5vw, 1.6rem);
+      }
+
+      .btn-demo {
+        font-size: 0.7rem;
+        padding: 0.4rem 1rem;
+        min-width: 100px;
+      }
+
+      .mobile-nav-trigger {
+        width: 36px;
+        height: 36px;
+        top: 10px;
+        right: 10px;
+      }
+
+      .mobile-nav-trigger span {
+        width: 16px;
+        height: 2px;
+      }
+
+      .mobile-overlay a {
+        font-size: clamp(1.2rem, 6vw, 1.8rem);
+      }
+
+      section {
+        padding: 4vh 3vw;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== PRELOADER ===== -->
+  <div id="preloader" role="status" aria-label="Loading">
+    <div class="preloader-text">WEBISTLY<span class="accent">.</span></div>
+    <div class="preloader-line"><span></span></div>
+  </div>
+
+  <!-- ===== CURSOR ===== -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ===== MOBILE NAV TRIGGER ===== -->
+  <button class="mobile-nav-trigger" id="mobileNavTrigger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <!-- ===== MOBILE OVERLAY ===== -->
+  <nav class="mobile-overlay" id="mobileOverlay">
+    <a href="#home" data-nav>HOME</a>
+    <a href="#services" data-nav>SERVICES</a>
+    <a href="#work" data-nav>WORK</a>
+    <a href="#manifesto" data-nav>ABOUT</a>
+    <a href="#work" data-nav>DEMOS</a>
+    <a href="#process" data-nav>PROCESS</a>
+    <a href="#contact" data-nav>CONTACT</a>
+  </nav>
+
+  <!-- ===== VERTICAL NAV ===== -->
+  <nav class="nav-vertical" id="verticalNav">
+    <a href="#home" class="active" data-nav>HOME</a>
+    <a href="#services" data-nav>SERVICES</a>
+    <a href="#work" data-nav>WORK</a>
+    <a href="#manifesto" data-nav>ABOUT</a>
+    <a href="#work" data-nav>DEMOS</a>
+    <a href="#process" data-nav>PROCESS</a>
+    <a href="#contact" data-nav>CONTACT</a>
+  </nav>
+
+  <!-- ===== MAIN ===== -->
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="hero-shape"></div>
+      <div class="container" style="position:relative; z-index:2;">
+        <div class="hero-grid">
+          <div class="hero-left">
+            <h1 class="hero-title">
+              WE <span class="outline">BUILD</span><br />
+              DIGITAL <span class="outline">EXPERIENCES</span><br />
+              THAT <span class="outline">MOVE</span>
+            </h1>
+            <p class="hero-sub">Premium websites for ambitious businesses, startups, and local brands.</p>
+            <div class="hero-meta">
+              <span><span class="accent-dot"></span> Digital studio</span>
+              <span>🌍 Global</span>
+              <span>⚡ Since 2026</span>
+            </div>
+          </div>
+          <div class="hero-right">
+            <!-- ACTUAL WEBISTLY LOGO - LARGER WITH ROUNDED CORNERS -->
+            <img src="assets/webistly.png" alt="Webistly" class="webistly-logo" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MANIFESTO -->
+    <section class="manifesto" id="manifesto">
+      <div class="container">
+        <div class="manifesto-label">⏤ About Webistly</div>
+        <h2 class="manifesto-text">
+          We build for the <span class="highlight">moment</span> before the customer calls.
+        </h2>
+        <p class="manifesto-desc">
+          No fluff, no templates. Just sharp, conversion-driven websites that feel like they belong to a premium brand.
+          We combine editorial design with technical precision.
+        </p>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+      <div class="container">
+        <div class="manifesto-label" style="color:var(--color-muted);">⏤ What we do</div>
+        <h2
+          style="font-family:var(--font-display); font-size:clamp(2.4rem,5vw,4rem); font-weight:600; letter-spacing:-0.02em;">
+          Services</h2>
+        <div class="services-grid">
+          <div class="service-item"><span class="service-number">01</span><span class="service-title">Web
+              Design</span><span class="service-desc">Editorial, asymmetrical, premium layouts.</span><span
+              class="service-icon">✦</span></div>
+          <div class="service-item"><span class="service-number">02</span><span class="service-title">Web
+              Development</span><span class="service-desc">Fast, semantic, interactive.</span><span
+              class="service-icon">⌘</span></div>
+          <div class="service-item"><span class="service-number">03</span><span class="service-title">Responsive
+              Experiences</span><span class="service-desc">Flawless on every screen.</span><span
+              class="service-icon">📱</span></div>
+          <div class="service-item"><span class="service-number">04</span><span class="service-title">Business Landing
+              Pages</span><span class="service-desc">High-conversion, brand-first.</span><span
+              class="service-icon">→</span></div>
+          <div class="service-item"><span class="service-number">05</span><span class="service-title">Redesign &amp;
+              Optimization</span><span class="service-desc">Modernize, speed up, refine.</span><span
+              class="service-icon">⚡</span></div>
+          <div class="service-item"><span class="service-number">06</span><span class="service-title">Strategy &amp;
+              Consulting</span><span class="service-desc">Digital direction for growth.</span><span
+              class="service-icon">◈</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORK / DEMOS -->
+    <section class="work" id="work">
+      <div class="container">
+        <div class="manifesto-label">⏤ Selected work</div>
+        <h2
+          style="font-family:var(--font-display); font-size:clamp(2.4rem,5vw,4rem); font-weight:600; letter-spacing:-0.02em;">
+          Demo projects</h2>
+        <div class="work-grid">
+          <!-- DEMO 1 -->
+          <div class="demo-block">
+            <div class="demo-info">
+              <div class="demo-number">01</div>
+              <span class="category">LOCAL SERVICE / DEMO</span>
+              <h3>CLEANING SERVICE</h3>
+              <p>Modern, fresh, trust-building website for cleaning businesses.</p>
+              <a href="https://akash-webstudio.github.io/cleaning-service/" target="_blank" class="btn-demo">VIEW DEMO
+                WEBSITE →</a>
+            </div>
+            <div class="demo-mockup">
+              <div class="browser-bar"><span></span><span></span><span></span></div>
+              <div class="mockup-content">CLEANING SERVICE</div>
+            </div>
+          </div>
+          <!-- DEMO 2 reverse -->
+          <div class="demo-block reverse">
+            <div class="demo-mockup">
+              <div class="browser-bar"><span></span><span></span><span></span></div>
+              <div class="mockup-content">AUTO DETAILING</div>
+            </div>
+            <div class="demo-info">
+              <div class="demo-number">02</div>
+              <span class="category">AUTOMOTIVE / DEMO</span>
+              <h3>AUTO DETAILING</h3>
+              <p>Bold, immersive, and premium for auto brands.</p>
+              <a href="https://akash-webstudio.github.io/auto-detailing-demo/" target="_blank" class="btn-demo">VIEW
+                DEMO WEBSITE →</a>
+            </div>
+          </div>
+          <!-- DEMO 3 -->
+          <div class="demo-block">
+            <div class="demo-info">
+              <div class="demo-number">03</div>
+              <span class="category">BARBERSHOP / DEMO</span>
+              <h3>BARBER PORTFOLIO</h3>
+              <p>Stylish, confident, and personal.</p>
+              <a href="https://akash-webstudio.github.io/barber-portfolio/" target="_blank" class="btn-demo">VIEW DEMO
+                WEBSITE →</a>
+            </div>
+            <div class="demo-mockup">
+              <div class="browser-bar"><span></span><span></span><span></span></div>
+              <div class="mockup-content">BARBER PORTFOLIO</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INDUSTRIES MARQUEE -->
+    <section class="industries" aria-label="Industries we serve">
+      <div class="marquee-wrap">
+        <div class="marquee">
+          <span>CLEANING</span><span>AUTO
+            DETAILING</span><span>BARBERS</span><span>SALONS</span><span>RESTAURANTS</span>
+          <span>CONTRACTORS</span><span>HOME SERVICES</span><span>LOCAL BUSINESSES</span><span>STARTUPS</span>
+          <span>CLEANING</span><span>AUTO
+            DETAILING</span><span>BARBERS</span><span>SALONS</span><span>RESTAURANTS</span>
+        </div>
+        <div class="marquee reverse">
+          <span>STARTUPS</span><span>LOCAL BUSINESSES</span><span>HOME SERVICES</span><span>CONTRACTORS</span>
+          <span>RESTAURANTS</span><span>SALONS</span><span>BARBERS</span><span>AUTO
+            DETAILING</span><span>CLEANING</span>
+          <span>STARTUPS</span><span>LOCAL BUSINESSES</span><span>HOME SERVICES</span><span>CONTRACTORS</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="process" id="process">
+      <div class="container">
+        <div class="manifesto-label">⏤ How we work</div>
+        <h2
+          style="font-family:var(--font-display); font-size:clamp(2.4rem,5vw,4rem); font-weight:600; letter-spacing:-0.02em;">
+          Process</h2>
+        <div class="process-flow">
+          <div class="process-step"><span class="num">01</span> DISCOVER <span class="arrow">→</span></div>
+          <div class="process-step"><span class="num">02</span> DESIGN <span class="arrow">→</span></div>
+          <div class="process-step"><span class="num">03</span> BUILD <span class="arrow">→</span></div>
+          <div class="process-step"><span class="num">04</span> LAUNCH <span class="arrow">↓</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="manifesto-label">⏤ Let's talk</div>
+        <div class="contact-grid">
+          <div class="contact-info">
+            <h2>Let's build<br />something worth<br />clicking.</h2>
+            <div class="detail">
+              <a href="https://wa.me/919310709102" target="_blank">WhatsApp +91 9310709102</a>
+              <a href="mailto:webistly@gmail.com">webistly@gmail.com</a>
+              <div style="display:flex; gap:1.8rem; margin-top:0.6rem; font-size:0.9rem; color:var(--text-muted); flex-wrap:wrap;">
+
+                <!-- Facebook: empty href, professional SVG icon -->
+                <a href="#" target="_blank" rel="noopener noreferrer" class="social-link" style="text-decoration:none; color:inherit; display:inline-flex; align-items:center; gap:0.4rem;">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                  Facebook
+                </a>
+
+                <!-- Instagram: existing URL, professional SVG icon -->
+                <a href="https://www.instagram.com/webistly_/" target="_blank" rel="noopener noreferrer" class="social-link" style="text-decoration:none; color:inherit; display:inline-flex; align-items:center; gap:0.4rem;">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                  </svg>
+                  Instagram
+                </a>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== CONTACT FORM — CONNECTED TO WEB3FORMS ===== -->
+          <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
+            <!-- Web3Forms Access Key (hidden) -->
+            <input type="hidden" name="access_key" value="2db12eae-e3ef-465c-9daa-8b2e852bbe7d" />
+
+            <!-- Form fields with correct name attributes -->
+            <input type="text" name="name" placeholder="Your name" required />
+            <input type="text" name="phone" placeholder="Phone number" />
+            <input type="email" name="email" placeholder="Email address" required />
+            <select name="service" required>
+              <option value="">Business type</option>
+              <option>Cleaning</option>
+              <option>Auto detailing</option>
+              <option>Barber/Salon</option>
+              <option>Restaurant</option>
+              <option>Contractor</option>
+              <option>Startup</option>
+              <option>Other</option>
+            </select>
+            <select name="project_type" required>
+              <option value="">Project type</option>
+              <option>New website</option>
+              <option>Redesign</option>
+              <option>Landing page</option>
+              <option>Optimization</option>
+            </select>
+            <textarea name="message" rows="3" placeholder="Tell us about your project..." required></textarea>
+
+            <!-- Honeypot spam protection (optional but recommended by Web3Forms) -->
+            <input type="checkbox" name="botcheck" style="display: none;" />
+
+            <button type="submit">Send message →</button>
+
+            <!-- Success & Error messages (styling unchanged) -->
+            <div class="form-success" id="formSuccess">✓ Thanks! We'll get back to you within 24 hours.</div>
+            <div class="form-error" id="formError">✗ Oops! Something went wrong. Please try again.</div>
+          </form>
+          <!-- ===== END CONTACT FORM ===== -->
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">WEBISTLY</div>
+        <div class="footer-links">
+          <a href="#home">Home</a><a href="#services">Services</a><a href="#work">Work</a>
+          <a href="#manifesto">About</a><a href="#process">Process</a><a href="#contact">Contact</a>
+        </div>
+      </div>
+      <div class="footer-copy">© 2026 Webistly. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      // ===== PRELOADER =====
+      const preloader = document.getElementById('preloader');
+      window.addEventListener('load', function () {
+        preloader.classList.add('hidden');
+      });
+      setTimeout(function () {
+        if (!preloader.classList.contains('hidden')) {
+          preloader.classList.add('hidden');
+        }
+      }, 3000);
+
+      // ===== CURSOR =====
+      const dot = document.getElementById('cursorDot');
+      const ring = document.getElementById('cursorRing');
+      let cursorX = 0,
+        cursorY = 0;
+      let ringX = 0,
+        ringY = 0;
+
+      function updateCursor(e) {
+        cursorX = e.clientX;
+        cursorY = e.clientY;
+        dot.style.transform = 'translate(' + (cursorX - 4) + 'px, ' + (cursorY - 4) + 'px)';
+        ringX += (cursorX - ringX) * 0.12;
+        ringY += (cursorY - ringY) * 0.12;
+        ring.style.transform = 'translate(' + (ringX - 17) + 'px, ' + (ringY - 17) + 'px)';
+      }
+      document.addEventListener('mousemove', updateCursor);
+
+      // ===== NAV ACTIVE =====
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('[data-nav]');
+
+      function setActiveNav(id) {
+        navLinks.forEach(function (link) {
+          var href = link.getAttribute('href');
+          if (href === '#' + id) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      }
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            setActiveNav(entry.target.id);
+          }
+        });
+      }, { threshold: 0.35 });
+
+      sections.forEach(function (s) { observer.observe(s); });
+
+      // ===== MOBILE NAV =====
+      var trigger = document.getElementById('mobileNavTrigger');
+      var overlay = document.getElementById('mobileOverlay');
+
+      function toggleMobile() {
+        trigger.classList.toggle('open');
+        overlay.classList.toggle('open');
+        document.body.style.overflow = overlay.classList.contains('open') ? 'hidden' : '';
+      }
+      trigger.addEventListener('click', toggleMobile);
+      overlay.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          if (overlay.classList.contains('open')) toggleMobile();
+        });
+      });
+
+      // ===== CONTACT FORM — WEB3FORMS SUBMISSION (AJAX) =====
+      const form = document.getElementById('contactForm');
+      const successMsg = document.getElementById('formSuccess');
+      const errorMsg = document.getElementById('formError');
+
+      // Ensure error message is hidden initially
+      errorMsg.style.display = 'none';
+
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        // Reset messages
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'none';
+
+        // Basic client-side validation (keeps existing behavior)
+        let valid = true;
+        const requiredFields = form.querySelectorAll('input[required], select[required], textarea[required]');
+        requiredFields.forEach(function (f) {
+          if (!f.value.trim()) {
+            valid = false;
+            f.style.borderColor = '#ff5f57';
+          } else {
+            f.style.borderColor = '';
+          }
+        });
+        if (!valid) return;
+
+        // Prepare form data
+        const formData = new FormData(form);
+
+        try {
+          const response = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: formData
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            // Success: show success message, reset form
+            successMsg.style.display = 'block';
+            form.reset();
+            // Clear any error border styles
+            form.querySelectorAll('input, select, textarea').forEach(el => el.style.borderColor = '');
+            // Auto-hide success after 5 seconds
+            setTimeout(() => {
+              successMsg.style.display = 'none';
+            }, 5000);
+          } else {
+            // Error from Web3Forms
+            errorMsg.textContent = '✗ ' + (result.message || 'Something went wrong. Please try again.');
+            errorMsg.style.display = 'block';
+          }
+        } catch (error) {
+          // Network or other error
+          errorMsg.textContent = '✗ Oops! Something went wrong. Please try again.';
+          errorMsg.style.display = 'block';
+        }
+      });
+
+      // ===== SMOOTH SCROLL =====
+      document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+        anchor.addEventListener('click', function (e) {
+          var href = this.getAttribute('href');
+          if (href === '#') return;
+          var target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+
+      // ===== REDUCED MOTION =====
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (prefersReduced.matches) {
+        document.querySelectorAll('.marquee').forEach(function (m) { m.style.animation = 'none'; });
+      }
+
+      // ===== PARALLAX SHAPE =====
+      var shape = document.querySelector('.hero-shape');
+      if (shape) {
+        document.addEventListener('mousemove', function (e) {
+          var x = (e.clientX / window.innerWidth - 0.5) * 20;
+          var y = (e.clientY / window.innerHeight - 0.5) * 20;
+          shape.style.transform = 'translate(' + x + 'px, ' + y + 'px) scale(1.05)';
+        });
+      }
+
+      // ===== SERVICE HOVER =====
+      document.querySelectorAll('.service-item').forEach(function (item) {
+        item.addEventListener('mouseenter', function () {
+          this.style.transition = 'all 0.25s ease';
+        });
+      });
+
+      // ===== DEMO BLOCK HOVER =====
+      document.querySelectorAll('.demo-block').forEach(function (block) {
+        block.addEventListener('mouseenter', function () {
+          var mockup = this.querySelector('.demo-mockup');
+          if (mockup) mockup.style.transform = 'scale(1.02)';
+        });
+        block.addEventListener('mouseleave', function () {
+          var mockup = this.querySelector('.demo-mockup');
+          if (mockup) mockup.style.transform = 'scale(1)';
+        });
+      });
+
+      // ===== NAV HOVER =====
+      document.querySelectorAll('.nav-vertical a').forEach(function (a) {
+        a.addEventListener('mouseenter', function () {
+          this.style.letterSpacing = '0.16em';
+        });
+        a.addEventListener('mouseleave', function () {
+          this.style.letterSpacing = '0.12em';
+        });
+      });
+
+      // ===== KEYBOARD ESC =====
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && overlay.classList.contains('open')) {
+          toggleMobile();
+        }
+      });
+
+      console.log('Webistly — Premium Digital Agency');
+    })();
+  </script>
+</body>
+
+</html> 
